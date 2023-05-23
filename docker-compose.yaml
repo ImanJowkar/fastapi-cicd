@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  app:
+    container_name: app
+    image: app:ver2
+    ports:
+      - '8000:80'
+    environment:
+      - db_url=mongodb://test-user:test-pass@db
+      - db_name=pymongo_tutorial
+    networks:
+      - backend
+
+  db:
+    container_name: db
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test-user
+      - MONGO_INITDB_ROOT_PASSWORD=test-pass
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - backend
+volumes:
+  dbdata:
+
+networks:
+  backend:
+    driver: bridge
+
